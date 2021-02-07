@@ -15,11 +15,12 @@ parser.add_argument("--transpose", "-t", action="store_true")
 parser.add_argument("--sort", "-s", nargs="+", help="Sort by column(s)")
 parser.add_argument("--descending", help="Sort descending", action="store_true")
 parser.add_argument("--drop", help="Drop column(s)", nargs="+")
-parser.add_argument("--with-index", action="store_true")
-parser.add_argument("--latex", action="store_true")
-parser.add_argument("--float-format", type=str, default=None)
+parser.add_argument("--with-index", action="store_true", help="Specify for outputing the index column")
+parser.add_argument("--latex", action="store_true", help="Output latex table")
+parser.add_argument("--float-format", type=str, default=None, help="Specify the float format in the output, e.g. '%.4f'")
 parser.add_argument("--move", nargs="+", help="Moves column X right before after column Y; format: 'X::Y'", default=None)
 parser.add_argument("--rename", nargs="+", help="Renames columns, format: 'old name::new name'")
+parser.add_argument("--sep", default=",", help="Column seperator")
 parsed = parser.parse_args()
 
 
@@ -32,7 +33,7 @@ if parsed.input is None:
 else:
     input_res = parsed.input
 
-df = pandas.read_csv(input_res, index_col=False)
+df = pandas.read_csv(input_res, index_col=False, sep=parsed.sep)
 
 if parsed.query is not None:
     df = df.query(parsed.query)
