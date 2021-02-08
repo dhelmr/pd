@@ -1,6 +1,8 @@
 Pandas for the command-line
 
-Use pandas for querying csv files or tabular data in the command-line, like: `cat example.csv | pd -q "x > 30" --sort z`.
+Use pandas for querying csv files or tabular data in the command-line, like: `cat example.csv | pd -q "x > 30" --sort z`. Supports [pandas queries](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.query.html) and some basic column reordering/renaming.
+
+All CLI arguments:
 
 ```
 usage: pd [-h] [--query QUERY] [--input INPUT] [--output OUTPUT] [--pretty]
