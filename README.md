@@ -1,4 +1,4 @@
-# Pandas for the command-line
+# pd - [Pandas](https://pandas.pydata.org/) for the command-line
 
 Use pandas for querying csv files or tabular data in the command-line, like: 
 
@@ -6,7 +6,7 @@ Use pandas for querying csv files or tabular data in the command-line, like:
 
 It supports [pandas queries](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.query.html), some basic column manipulation (renaming/reordering/...), different input and output formats and sorting.
 
-This tool should not be considered stable yet and will likely be inefficient when dealing with very large csv files. It is rather meant for dealing with small and medium-sized tabular data on the command line or in scripts (e.g. quickly converting a csv to a latex table or sorting and filtering values).
+This tool should not be considered stable or complete in any kind yet and will likely be inefficient when dealing with very large csv files. It is rather meant for dealing with small and medium-sized tabular data on the command line or in scripts (e.g. quickly converting a csv to a latex table or sorting and filtering values).
 
 ## Installation
 
