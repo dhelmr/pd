@@ -2,7 +2,7 @@
 
 Use pandas for querying csv files or tabular data in the command-line, like: 
 
-```cat example.csv | pd -q "x > 30" --sort z```. 
+```cat example.csv | pd -q "x > 30" --sort z > output.csv```. 
 
 It supports [pandas queries](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.query.html), some basic column manipulation (renaming/reordering/...), different input and output formats and sorting.
 
