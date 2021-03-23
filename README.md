@@ -10,7 +10,11 @@ This tool should not be considered stable or complete in any kind yet and will l
 
 ## Installation
 
-Clone the git repo and install the requirements with `pip install --user -r requirements.txt`.
+Requires python >= 3.6 and pip. Clone the git repo and install the requirements with `pip install --user -r requirements.txt`. 
+
+Run `pd` with `./pd.py`. Below it is assumed that `pd` is an executable which links to the script.
+
+TODO: proper installation setup with pip
 
 ## Examples
 
