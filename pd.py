@@ -40,11 +40,20 @@ parser.add_argument("--move", nargs="+", help="Moves column X right before after
 parser.add_argument("--rename", nargs="+", help="Renames columns, format: 'old name::new name'")
 parser.add_argument("--sep", default=",", help="Column seperator")
 parser.add_argument("--latex-max-bold", nargs="+", help="Marks the maximum value of each column in the latex output bold.", type=str, default=None)
-parser.add_argument("--columns", action="store_true")
+
 parser.add_argument("--replace-nan", help="Replace all NaN values with another value", type=float)
-parser.add_argument("--json-out-orient", help="Specifies the json format. Choose one of %s. See https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.to_json.html?highlight=to_json#pandas.Series.to_json" % ALLOWED_JSON_ORIENTS, default="records", choices=ALLOWED_JSON_ORIENTS)
-parser.add_argument("--json-in-orient", help="Specifies the json orient. Choose one of %s. See https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.to_json.html?highlight=to_json#pandas.Series.to_json" % ALLOWED_JSON_ORIENTS, default="records", choices=ALLOWED_JSON_ORIENTS)
+parser.add_argument("--json-out-orient", help="Specifies the json input orient. Choose one of %s. See https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.to_json.html?highlight=to_json#pandas.Series.to_json" % ALLOWED_JSON_ORIENTS, default="records", choices=ALLOWED_JSON_ORIENTS)
+parser.add_argument("--json-in-orient", help="Specifies the json output orient. Choose one of %s. See https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.to_json.html?highlight=to_json#pandas.Series.to_json" % ALLOWED_JSON_ORIENTS, default="records", choices=ALLOWED_JSON_ORIENTS)
+parser.add_argument("--only", nargs="+")
+parser.add_argument("--columns", action="store_true", help="Prints the columns")
+parser.add_argument("-n", "--nrows", action="store_true", help="Prints the number of rows")
+parser.add_argument("--group-by", help="Groups by the specified column.", type=str)
+parser.add_argument("--group-by-max", help="Determines the maximum column value of a group by.", type=str)
+parser.add_argument("--unique", help="Prints unique values of the specified column.", type=str)
 parsed = parser.parse_args()
+
+if parsed.group_by_max is None and parsed.group_by is not None:
+    raise ValueError("--group-by and --group-by-max must be specified together.")
 
 if parsed.input is None:
     text = ""
@@ -91,6 +100,14 @@ if parsed.move is not None:
         columns.insert(columns.index(Y), columns.pop(columns.index(X)))
     df = df.reindex(columns = columns)
 
+if parsed.group_by is not None:
+    gb = df.groupby(parsed.group_by)
+    max_values = gb[parsed.group_by_max].agg('max').reset_index()
+    df = pandas.merge(df, max_values, how='left', on=parsed.group_by, suffixes=("","_y"))
+    df = df[df[parsed.group_by_max] == df[parsed.group_by_max+"_y"]]
+    df.drop(columns=[parsed.group_by_max+"_y"], inplace=True)
+
+
 if parsed.transpose:
     df = df.T
 
@@ -98,6 +115,19 @@ if parsed.columns:
     for col in df.columns:
         print(col)
     exit(0)
+
+if parsed.unique:
+    unique_values = df[parsed.unique].unique()
+    for val in unique_values:
+        print(val)
+    exit(0)
+
+if parsed.nrows:
+    print(len(df))
+    exit(0)
+
+if parsed.only is not None:
+    df = df[parsed.only]
 
 if parsed.output is None:
     if parsed.pretty:
