@@ -1,10 +1,12 @@
-# pd: Command-line Interface to [Pandas](https://pandas.pydata.org/)
+# pd: Command-line Interface to [Pandas](https://pandas.pydata.org/) for dealing with tabular data
 
-This is a little python tool to deal with tabular data in the command line, like: 
+This is a little python tool to quickly handle tabular data in the command line, like: 
 
-```cat example.csv | pd -q "x > 30" --sort z > output.csv```. 
+```sh
+cat example.csv | pd -q "x > 30" --sort z > output.csv
+```
 
-It supports [pandas queries](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.query.html), some basic column manipulation (renaming/reordering/...), different input and output formats and sorting.
+It supports [pandas queries](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.query.html), some basic column manipulation (renaming/reordering/...), different input and output formats (csv, json, latex, html) and sorting.
 
 This tool should not be considered stable or complete in any kind yet and will likely be inefficient when dealing with very large csv files. It is rather meant for dealing with small and medium-sized tabular data on the command line or in scripts (e.g. quickly converting a csv to a latex table or sorting and filtering values).
 
@@ -18,21 +20,35 @@ TODO: proper installation setup with pip
 
 ## Examples
 
-* Read a table from json, sort records by a column and store as json 
+#### Read a table from json, sort records by a column and store as json 
 
-`pd --from json -i example.json --sort z --to json > sorted_by_z.json`
+```sh
+pd --from json -i example.json --sort z --to json > sorted_by_z.json
+```
 
-* convert a csv to a latex table and highlight the maximum number of some columns ('x' and 'z' here):
+#### convert a csv to a latex table and highlight the maximum number of some columns ('x' and 'z' here):
 
-`pd --from csv -i example.csv --to latex --latex-max-bold x z -o examples.tex`
+```sh
+pd --from csv -i example.csv --to latex --latex-max-bold x z -o examples.tex
+```
 
-* list columns of a csv
+#### list columns of a csv
 
-`pd -i example.csv --columns`
+```
+pd -i example.csv --columns
+```
 
-* rename column:
+#### rename column:
 
-`pd -i example.csv --rename y::new_column_name > output.csv`
+```
+pd -i example.csv --rename y::new_column_name > output.csv
+```
+
+#### Filter columns and print as a nice table 
+
+```
+pd -i example.csv --only x y --pretty
+```
 
 ## Help
 
