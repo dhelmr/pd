@@ -44,12 +44,14 @@ usage: pd [-h] [--query QUERY] [--input INPUT] [--output OUTPUT] [--pretty]
           [--descending] [--drop DROP [DROP ...]] [--with-index] [--to TO]
           [--from FROM_FORMAT] [--float-format FLOAT_FORMAT]
           [--move MOVE [MOVE ...]] [--rename RENAME [RENAME ...]] [--sep SEP]
-          [--latex-max-bold LATEX_MAX_BOLD [LATEX_MAX_BOLD ...]] [--columns]
+          [--latex-max-bold LATEX_MAX_BOLD [LATEX_MAX_BOLD ...]]
           [--replace-nan REPLACE_NAN]
           [--json-out-orient {split,records,index,columns,values,table}]
           [--json-in-orient {split,records,index,columns,values,table}]
+          [--only ONLY [ONLY ...]] [--columns] [-n] [--group-by GROUP_BY]
+          [--group-by-max GROUP_BY_MAX] [--unique UNIQUE]
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   --query QUERY, -q QUERY
                         Pandas query
@@ -81,21 +83,27 @@ optional arguments:
   --latex-max-bold LATEX_MAX_BOLD [LATEX_MAX_BOLD ...]
                         Marks the maximum value of each column in the latex
                         output bold.
-  --columns
   --replace-nan REPLACE_NAN
                         Replace all NaN values with another value
   --json-out-orient {split,records,index,columns,values,table}
-                        Specifies the json format. Choose one of ['split',
-                        'records', 'index', 'columns', 'values', 'table']. See
-                        https://pandas.pydata.org/pandas-docs/stable/reference
-                        /api/pandas.Series.to_json.html?highlight=to_json#pand
-                        as.Series.to_json
+                        Specifies the json input orient. Choose one of
+                        ['split', 'records', 'index', 'columns', 'values',
+                        'table']. See https://pandas.pydata.org/pandas-docs/st
+                        able/reference/api/pandas.Series.to_json.html?highligh
+                        t=to_json#pandas.Series.to_json
   --json-in-orient {split,records,index,columns,values,table}
-                        Specifies the json orient. Choose one of ['split',
-                        'records', 'index', 'columns', 'values', 'table']. See
-                        https://pandas.pydata.org/pandas-docs/stable/reference
-                        /api/pandas.Series.to_json.html?highlight=to_json#pand
-                        as.Series.to_json
+                        Specifies the json output orient. Choose one of
+                        ['split', 'records', 'index', 'columns', 'values',
+                        'table']. See https://pandas.pydata.org/pandas-docs/st
+                        able/reference/api/pandas.Series.to_json.html?highligh
+                        t=to_json#pandas.Series.to_json
+  --only ONLY [ONLY ...]
+  --columns             Prints the columns
+  -n, --nrows           Prints the number of rows
+  --group-by GROUP_BY   Groups by the specified column.
+  --group-by-max GROUP_BY_MAX
+                        Determines the maximum column value of a group by.
+  --unique UNIQUE       Prints unique values of the specified column.
 
 ```
 
