@@ -1,4 +1,4 @@
-# pd: Command-line Interface to [Pandas](https://pandas.pydata.org/) for dealing with tabular data
+# pd: Command-line Interface to [Pandas](https://pandas.pydata.org/) for Dealing with Tabular Data
 
 This is a little python tool to quickly handle tabular data in the command line, like: 
 
