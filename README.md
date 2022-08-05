@@ -12,11 +12,27 @@ This tool should not be considered stable or complete in any kind yet and will l
 
 ## Installation
 
+### Manual installation
+
 Requires python >= 3.6 and pip. Clone the git repo and install the requirements with `pip install --user -r requirements.txt`. 
 
 Run `pd` with `./pd.py`. Below it is assumed that `pd` is an executable which links to the script.
 
 TODO: proper installation setup with pip
+
+### Docker
+
+There is a docker image available to use if you have docker installed:
+
+```sh
+docker run dhelmr/pd --help
+```
+
+Example for reading in csv from stdin:
+
+```sh
+ cat examples/example.csv | docker run -i dhelmr/pd --to json
+```
 
 ## Examples
 
