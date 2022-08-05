@@ -1,6 +1,6 @@
-# pd - [Pandas](https://pandas.pydata.org/) for the command-line
+# pd - A Command-line Interface to [Pandas](https://pandas.pydata.org/)
 
-Use pandas for querying csv files or tabular data in the command-line, like: 
+A little python tool to deal with tabular data in the command line, like: 
 
 ```cat example.csv | pd -q "x > 30" --sort z > output.csv```. 
 
