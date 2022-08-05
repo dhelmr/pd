@@ -1,6 +1,6 @@
-# pd - A Command-line Interface to [Pandas](https://pandas.pydata.org/)
+# pd: Command-line Interface to [Pandas](https://pandas.pydata.org/)
 
-A little python tool to deal with tabular data in the command line, like: 
+This is a little python tool to deal with tabular data in the command line, like: 
 
 ```cat example.csv | pd -q "x > 30" --sort z > output.csv```. 
 
