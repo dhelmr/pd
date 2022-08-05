@@ -28,10 +28,16 @@ There is a docker image available to use if you have docker installed:
 docker run dhelmr/pd --help
 ```
 
-Example for reading in csv from stdin:
+Example for reading in csv from stdin and converting it to json:
 
 ```sh
- cat examples/example.csv | docker run -i dhelmr/pd --to json
+cat examples/example.csv | docker run -i dhelmr/pd --to json
+```
+
+Note that the `-i` and `-o` options won't work out-of-the-box when using the docker image. You'll need to mount the input and output files to the docker container:
+
+```bash
+docker run -v $(pwd)/examples/example.csv:/input dhelmr/pd -i /input --to json
 ```
 
 ## Examples
