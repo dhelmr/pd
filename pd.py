@@ -52,6 +52,8 @@ parser.add_argument("-n", "--nrows", action="store_true", help="Prints the numbe
 parser.add_argument("--group-by", help="Groups by the specified column.", type=str)
 parser.add_argument("--group-by-max", help="Determines the maximum column value of a group by.", type=str)
 parser.add_argument("--unique", help="Prints unique values of the specified column.", type=str)
+parser.add_argument("--gui", help="open pandas-gui", action="store_true")
+parser.add_argument("--corr", action="store_true" )
 parsed = parser.parse_args()
 
 if parsed.group_by_max is None and parsed.group_by is not None:
@@ -132,6 +134,14 @@ if parsed.nrows:
 
 if parsed.only is not None:
     df = df[parsed.only]
+
+if parsed.corr:
+    df = df.corr()
+
+if parsed.gui:
+    from pandasgui import show
+    show(df)
+    exit(0)
 
 if parsed.output is None:
     if parsed.pretty:
