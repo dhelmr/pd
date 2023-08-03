@@ -15,10 +15,12 @@ class OutputFormats(Enum):
     LATEX = "latex"
     JSON = "json"
     HTML = "html"
+    PARQUET = "pq"
 
 class InputFormats(Enum):
     CSV = "csv"
     JSON = "json"
+    PARQUET = "pq"
 
 ALLOWED_JSON_ORIENTS = ["split", "records", "index", "columns", "values", "table"]
 
@@ -68,6 +70,8 @@ if parsed.from_format == InputFormats.CSV:
     df = pandas.read_csv(input_res, index_col=False, sep=parsed.sep)
 elif parsed.from_format == InputFormats.JSON:
     df = pandas.read_json(input_res, orient=parsed.json_in_orient)
+elif parsed.from_format == InputFormats.PARQUET:
+    df = pandas.read_parquet(input_res)
 
 if parsed.replace_nan is not None:
    df = df.replace(np.nan, parsed.replace_nan)
@@ -184,6 +188,8 @@ elif parsed.to == OutputFormats.HTML:
      out_method = lambda *args, **kwargs: df.to_html(*args, float_format=parsed.float_format, index= parsed.with_index, **kwargs)
 elif parsed.to == OutputFormats.CSV:
     out_method = lambda *args, **kwargs: df.to_csv(*args, float_format=parsed.float_format, index= parsed.with_index, **kwargs)
+elif parsed.to == OutputFormats.PARQUET:
+    out_method = lambda *args, **kwargs: df.to_parquet(*args, compression="gzip", float_format=parsed.float_format, index= parsed.with_index, **kwargs)
 else:
     raise RuntimeError("Unexpected output format: %s" % parsed.to)
 out_method(out_res)
