@@ -47,6 +47,7 @@ parser.add_argument("--replace-nan", help="Replace all NaN values with another v
 parser.add_argument("--json-out-orient", help="Specifies the json input orient. Choose one of %s. See https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.to_json.html?highlight=to_json#pandas.Series.to_json" % ALLOWED_JSON_ORIENTS, default="records", choices=ALLOWED_JSON_ORIENTS)
 parser.add_argument("--json-in-orient", help="Specifies the json output orient. Choose one of %s. See https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.to_json.html?highlight=to_json#pandas.Series.to_json" % ALLOWED_JSON_ORIENTS, default="records", choices=ALLOWED_JSON_ORIENTS)
 parser.add_argument("--only", nargs="+")
+parser.add_argument("--only-cols-from-file", help="Read file of line-separated column names to use for --only")
 parser.add_argument("--columns", action="store_true", help="Prints the columns")
 parser.add_argument("-n", "--nrows", action="store_true", help="Prints the number of rows")
 parser.add_argument("--group-by", help="Groups by the specified column.", type=str)
@@ -54,6 +55,8 @@ parser.add_argument("--group-by-max", help="Determines the maximum column value 
 parser.add_argument("--unique", help="Prints unique values of the specified column.", type=str)
 parser.add_argument("--gui", help="open pandas-gui", action="store_true")
 parser.add_argument("--corr", action="store_true" )
+parser.add_argument("--head", type=int, help="Select top X rows")
+parser.add_argument("--tail", type=int)
 parsed = parser.parse_args()
 
 if parsed.group_by_max is None and parsed.group_by is not None:
@@ -106,13 +109,18 @@ if parsed.move is not None:
         columns.insert(columns.index(Y), columns.pop(columns.index(X)))
     df = df.reindex(columns = columns)
 
+if parsed.head is not None:
+    df = df.head(parsed.head)
+
+if parsed.tail is not None:
+    df = df.tail(parsed.tail)
+
 if parsed.group_by is not None:
     gb = df.groupby(parsed.group_by)
     max_values = gb[parsed.group_by_max].agg('max').reset_index()
     df = pandas.merge(df, max_values, how='left', on=parsed.group_by, suffixes=("","_y"))
     df = df[df[parsed.group_by_max] == df[parsed.group_by_max+"_y"]]
     df.drop(columns=[parsed.group_by_max+"_y"], inplace=True)
-
 
 if parsed.transpose:
     df = df.T
@@ -134,6 +142,11 @@ if parsed.nrows:
 
 if parsed.only is not None:
     df = df[parsed.only]
+elif parsed.only_cols_from_file is not None:
+    with open(parsed.only_cols_from_file, "r") as f:
+        cols = f.readlines()
+        cols = [c.strip() for c in cols]
+        df = df[cols]
 
 if parsed.corr:
     df = df.corr()
@@ -160,7 +173,8 @@ def escape_latex(text: str) -> str:
     return text.replace("_", "\\_")
 
 def wrap_latex_output(df, out_res, *args, replaces: dict, **kwargs):
-    text = df.to_latex(*args, **kwargs)
+    with pandas.option_context('display.max_colwidth', 300):
+        text = df.to_latex(*args, **kwargs)
     if replaces is not None:
         for key, value in replaces.items():
             text = text.replace(key, value)
