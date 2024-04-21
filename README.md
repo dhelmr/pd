@@ -22,7 +22,7 @@ TODO: proper installation setup with pip
 
 ### Docker
 
-There is a docker image available to use if you have docker installed:
+There is a docker image available if you have docker installed:
 
 ```sh
 docker run dhelmr/pd --help
