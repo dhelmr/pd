@@ -28,7 +28,7 @@ There is a docker image available if you have docker installed:
 docker run dhelmr/pd --help
 ```
 
-Example for reading in csv from stdin and converting it to json:
+Here is an example for reading in csv from stdin and converting it to json:
 
 ```sh
 cat examples/example.csv | docker run -i dhelmr/pd --to json
