@@ -1,6 +1,6 @@
 # pd: Command-line Interface to [Pandas](https://pandas.pydata.org/) for Dealing with Tabular Data
 
-This is a little python tool to quickly handle tabular data in the command line, like: 
+This is a little python tool to quickly handle tabular data in the command line, like this: 
 
 ```sh
 cat example.csv | pd -q "x > 30" --sort z > output.csv
